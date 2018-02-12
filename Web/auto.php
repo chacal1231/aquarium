@@ -301,6 +301,18 @@ while (true) {
 						socket_send($m, $s, strlen($s),0);
 					}
 				}
+				else if(strpos($data,"time=")!==false){
+					$s=$data;
+					foreach($allSockets as $m){
+						socket_send($m, $s, strlen($s),0);
+					}
+				}
+				else if(strpos($data,"cron=")!==false){
+					$s=$data;
+					foreach($allSockets as $m){
+						socket_send($m, $s, strlen($s),0);
+					}
+				}
 			}
 		}
 	}

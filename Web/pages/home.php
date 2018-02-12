@@ -1,8 +1,30 @@
-<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
 <?php
 if(isset($_POST['simpan'])){
-}else{
-
+    //id query
+    $result = mysqli_query($link,"SELECT * FROM food order by id DESC");
+    $row = mysqli_fetch_array($result);            
+    $id=($row["id"]+1);
+    //POST Data
+    $food       = mysqli_real_escape_string($link,$_POST['type']);
+    $time       = mysqli_real_escape_string($link,$_POST['time']);
+    $frec       = mysqli_real_escape_string($link,$_POST['frec']);
+    $grs        = mysqli_real_escape_string($link,$_POST['amount']);
+    //Query
+    mysqli_query($link,"INSERT INTO food(id,food,time,frec,grs) VALUES('$id','$food','$time','$frec','$grs')");
+    //Message
+    echo '<div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <strong>Every is ok!</strong> Added scheduler. </div>';
+    //Frame 
+    $frame="time=$time;frec=$frec;grs=$grs";
+    //Socket
+    $host="127.0.0.1";
+    $port = 7775;
+    $message=$frame . "\r\n";
+    $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP) or die("Could not create socket\n");
+    $result = socket_connect($socket, $host, $port) or die("Could not connect to server\n");
+    socket_write($socket, $message, strlen($message)) or die("Could not send data to server\n");
+    socket_close($socket);
 }
 ?>
 
@@ -91,7 +113,6 @@ $row = mysqli_fetch_array($QueryFood);
                                             <th>When</th>
                                             <th>Repeat</th>
                                             <th>Amount (Grs)</th>
-                                            <th><i class="fa fa-pencil"></i></th>
                                             <th><i class="fa fa-trash-o"></i></th>
                                         </tr>
                                     </thead>
@@ -102,14 +123,11 @@ $row = mysqli_fetch_array($QueryFood);
                                             <td><?php echo $field['food']; ?></td>
                                             <td><?php echo $field['time']; ?></td>
                                             <td><?php echo $field['frec']; ?></td>
-                                            <td><?php echo $field['grs']; ?></td>
-                                            <td>
-                                                <a class="btn btn-success btn-xs" href="?page=modi_cli&id=<?php echo $field['id']; ?>" title="Modificar">
-                                                    <i class="fa fa-pencil"></i>
+                                            <td><?php echo $field['grs']; ?></td> <i class="fa fa-pencil"></i>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-danger btn-xs" href="?page=eli_cli&id=<?php echo $field['id']; ?>&ipp=<?php echo $field['ip']; ?>" title="Eliminar" onClick="return confirm('Desea eliminar al cliente ?...')">
+                                                <a class="btn btn-danger btn-xs" href="?page=eli_sc&id=<?php echo $field['frec']; ?>" title="Eliminar" onClick="return confirm('Do you want delete this?')">
                                                     <i class="fa fa-trash-o"></i>
                                                 </a>
                                             </td>
@@ -271,8 +289,8 @@ window.onload = function () {
                                 <input type="text" class="form-control" name="type" placeholder="" required>
                             </div>
                             <div class="form-group">
-                                <label for="recipient-name" class="control-label"><b>Start hour:</b></label>
-                                <select id="repeat" name="frec" class="form-control">
+                                <label for="recipient-name" class="control-label"><b>Start hour *:</b></label>
+                                <select id="repeat" name="time" class="form-control">
                                     <option value="">-- Seleccionar --</option>
                                     <option value="0">00:00</option>
                                     <option value="1">01:00</option>
@@ -301,8 +319,8 @@ window.onload = function () {
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="recipient-name" class="control-label"><b>Repeat:</b></label>
-                                <select id="repeat" name="ciudad" class="form-control">
+                                <label for="recipient-name" class="control-label"><b>Repeat *:</b></label>
+                                <select id="repeat" name="frec" class="form-control">
                                     <option value="">-- Seleccionar --</option>
                                     <option value="0">Everyday</option>
                                     <option value="1">Weekends</option>
@@ -313,10 +331,10 @@ window.onload = function () {
                                 <label for="recipient-name" class="control-label"><b>Amount in gr *:</b></label>
                                 <input type="correo" class="form-control" name="amount" required/>
                             </div>
-                            <h3><b><p class="alert alert-danger">* Campos obligatorios</b></h3>
+                            <h3><b><p class="alert alert-danger">* Obligatory fields</b></h3>
                             <div class="text-right">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary" name="simpan" value="Sign up">Agregar cliente</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" name="simpan" value="Sign up">Add</button>
                             </div>
                         </form>
                     </div>

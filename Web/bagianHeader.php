@@ -8,7 +8,7 @@
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="">
 
-    <title>OSS Broker</title>
+    <title>Aquarium</title>
 
     <!--Core CSS -->
     <link href="backend/panel/bs3/css/bootstrap.min.css" rel="stylesheet">
@@ -55,7 +55,7 @@
             <!--logo start-->
             <div class="brand">
                  <a href="index.php" class="logo">
-                    <img src="backend/panel/images/logo.png" alt="" width="210" height="75">
+                    <img src="backend/panel/images/log2o.png" alt="" width="210" height="75">
                 </a>
                 <div class="sidebar-toggle-box">
                     <div class="fa fa-bars"></div>
@@ -137,7 +137,7 @@
                             <li>
                                 <a href="index.php">
                                     <i class="fa fa-dashboard"></i>
-                                    <span>Oilfield Services & Supplies S.A.S</span>
+                                    <span>Aquarium</span>
                                 </a>
                             </li>
                             <li class="sub-menu">
@@ -145,12 +145,6 @@
                                     <i class="fa fa-users"></i>
                                     <span>Dashboard</span>
                                 </a>
-                                <ul class="sub">
-									<li><a href="?page=Enviar">Send coomands to DAU</a></li>
-                                    <li><a href="?page=rld">Realtime data</a></li>
-                                    <li><a href="?page=avd">Average data</a></li>
-                                    <li><a href="?page=acd">Acumulated data</a></li> 
-                                </ul>
                             </li>
 
                              <!-- 
